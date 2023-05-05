@@ -1,7 +1,7 @@
-import { css } from "@emotion/react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { usePokemonPaginationWithFilter } from "../hooks";
+import { useSearchParams, Link } from "react-router-dom";
+import { css } from "@emotion/react";
+import { usePokemonPaginationWithFilter, useSearchHistory } from "../hooks";
 import PokedexList from "../components/PokedexList";
 
 const styles = {
@@ -40,6 +40,7 @@ const styles = {
 };
 
 const Pokedex: React.FC = () => {
+  useSearchHistory();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [input, setInput] = useState("");
@@ -83,6 +84,15 @@ const Pokedex: React.FC = () => {
               Search
             </button>
           </div>
+
+          <p
+            css={css`
+              margin: 0px;
+              font-size: 12px;
+            `}
+          >
+            <Link to="/history">Browse your search history</Link>
+          </p>
         </form>
       </div>
 

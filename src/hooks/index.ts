@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-
+import { useHref, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { pokemonApi, useGetPokemonsQuery } from "../services/pokemon";
 import { AppDispatch, RootState } from "../store";
 import { QueryStatus } from "@reduxjs/toolkit/dist/query";
+import { add } from "../reducers/history";
 
 export const usePokemonPaginationWithFilter = ({ page, filter }: { page: number; filter: string }) => {
   const { data: pokemons = [], isLoading: isLoadingPokemonList } = useGetPokemonsQuery(undefined);
@@ -72,4 +73,15 @@ const usePokemonDetails = (pokemons: string[]) => {
   }, [pokemonsToLoad, isLoading, isFetched]);
 
   return { isFetched, pokemonDetails: isFetched && pokemonDetails, isLoading };
+};
+
+export const useSearchHistory = () => {
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  const href = useHref(location);
+
+  useEffect(() => {
+    dispatch(add(href));
+  }, [href]);
 };
