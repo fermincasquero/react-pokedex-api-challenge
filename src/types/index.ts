@@ -30,6 +30,13 @@ export type PokemonDetail = {
     back_female?: string;
     back_shiny_female?: string;
   };
+  types: {
+    slot: number;
+    type: {
+      name: string;
+      url: string;
+    };
+  }[];
 };
 
 export type PokemonsResponse = PokemonPaginationResponse<PokemonSummary>;

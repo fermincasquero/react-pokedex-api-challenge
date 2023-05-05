@@ -14,7 +14,7 @@ export const usePokemonPaginationWithFilter = ({ page, filter }: { page: number;
 
     // Pokemons array is large so use for loop to improve performance
     for (let i = 0; i < pokemons.length; i++) {
-      if (pokemons[i].name.includes(filter)) {
+      if (pokemons[i].name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) {
         filteredPokemons.push(pokemons[i].name);
       }
     }
