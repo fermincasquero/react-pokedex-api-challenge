@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { usePokemonPaginationWithFilter } from "../hooks";
-import PokedexList from "./PokedexList";
+import PokedexList from "../components/PokedexList";
 
 const styles = {
   root: css`
@@ -39,18 +40,29 @@ const styles = {
 };
 
 const Pokedex: React.FC = () => {
-  const [input, setInput] = useState("");
-  const [filter, setFilter] = useState("");
-  const [page, setPage] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { pokemonDetails, hasMore } = usePokemonPaginationWithFilter({ filter, page });
+  const [input, setInput] = useState("");
+
+  const { pokemonDetails, hasMore } = usePokemonPaginationWithFilter({
+    filter: searchParams.get("filter") || "",
+    page: parseInt(searchParams.get("page") || "0"),
+  });
 
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setFilter(input);
+    setSearchParams({ filter: input, page: "0" });
   };
+
+  useEffect(() => {
+    setInput(searchParams.get("filter") || "");
+  }, [searchParams]);
+
+  const page = useMemo(() => {
+    return parseInt(searchParams.get("page") || "0");
+  }, [searchParams]);
 
   return (
     <div css={styles.root}>
@@ -91,10 +103,26 @@ const Pokedex: React.FC = () => {
             gap: 8px;
           `}
         >
-          <button disabled={page == 0} onClick={() => setPage((page) => page - 1)}>
+          <button
+            disabled={!page}
+            onClick={() =>
+              setSearchParams((prev) => {
+                prev.set("page", (page - 1).toString());
+                return prev;
+              })
+            }
+          >
             Previous
           </button>
-          <button disabled={!hasMore} onClick={() => setPage((page) => page + 1)}>
+          <button
+            disabled={!hasMore}
+            onClick={() =>
+              setSearchParams((prev) => {
+                prev.set("page", (page + 1).toString());
+                return prev;
+              })
+            }
+          >
             Next
           </button>
         </div>

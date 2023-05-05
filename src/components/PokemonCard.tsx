@@ -1,10 +1,6 @@
 import { css } from "@emotion/react";
 import type { PokemonDetail } from "../types";
 
-const attributeStyle = css`
-  width: 50%;
-`;
-
 const cardStyle = css`
   display: flex;
   flex-direction: column;

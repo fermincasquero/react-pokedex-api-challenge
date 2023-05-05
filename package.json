@@ -16,7 +16,8 @@
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.8",
