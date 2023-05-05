@@ -43,22 +43,22 @@ const PokemonCard: React.FC<{ item: PokemonDetail }> = ({ item }) => {
           >
             {item.name}
           </h3>
-          <p
+          <div
             css={css`
               margin: 0px;
             `}
           >
             Height: {item.height}
-          </p>
-          <p
+          </div>
+          <div
             css={css`
               margin: 0px;
             `}
           >
             Weight: {item.weight}
-          </p>
+          </div>
 
-          <p
+          <div
             css={css`
               margin: 0px;
               display: flex;
@@ -75,9 +75,9 @@ const PokemonCard: React.FC<{ item: PokemonDetail }> = ({ item }) => {
             >
               {item.types.map(({ type: { name } }) => name).join(",")}
             </div>
-          </p>
+          </div>
 
-          <p
+          <div
             css={css`
               margin: 0px;
               display: flex;
@@ -93,7 +93,7 @@ const PokemonCard: React.FC<{ item: PokemonDetail }> = ({ item }) => {
             >
               {item.abilities.map(({ ability: { name } }) => name).join(",")}
             </div>
-          </p>
+          </div>
         </div>
       </div>
 

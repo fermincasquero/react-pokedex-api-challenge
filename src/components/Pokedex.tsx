@@ -41,9 +41,9 @@ const styles = {
 const Pokedex: React.FC = () => {
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(0);
 
-  const { pokemonDetails } = usePokemonPaginationWithFilter({ filter, page: 0 });
-  console.log("pokemonDetails :", pokemonDetails);
+  const { pokemonDetails, hasMore } = usePokemonPaginationWithFilter({ filter, page });
 
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -82,6 +82,22 @@ const Pokedex: React.FC = () => {
         `}
       >
         {!!pokemonDetails && <PokedexList items={pokemonDetails} />}
+
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 8px;
+          `}
+        >
+          <button disabled={page == 0} onClick={() => setPage((page) => page - 1)}>
+            Previous
+          </button>
+          <button disabled={!hasMore} onClick={() => setPage((page) => page + 1)}>
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

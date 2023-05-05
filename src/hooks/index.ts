@@ -24,7 +24,12 @@ export const usePokemonPaginationWithFilter = ({ page, filter }: { page: number;
 
   const { isFetched, pokemonDetails, isLoading } = usePokemonDetails(filteredPokemons);
 
-  return { isFetched, pokemonDetails, isLoading: isLoading && isLoadingPokemonList };
+  return {
+    isFetched,
+    pokemonDetails,
+    isLoading: isLoading && isLoadingPokemonList,
+    hasMore: pokemons.length > page * 10,
+  };
 };
 
 const pokemonDetailsSelector = (names: string[]) => (state: RootState) => {
