@@ -10,7 +10,7 @@ import { add } from "../reducers/history";
 export const usePokemonPaginationWithFilter = ({ page, filter }: { page: number; filter: string }) => {
   const { data: pokemons = [], isLoading: isLoadingPokemonList } = useGetPokemonsQuery(undefined);
 
-  const filteredPokemons = useMemo(() => {
+  const { filteredPokemons, totalPages } = useMemo(() => {
     const filteredPokemons = [];
 
     // Pokemons array is large so use for loop to improve performance
@@ -20,16 +20,18 @@ export const usePokemonPaginationWithFilter = ({ page, filter }: { page: number;
       }
     }
 
-    return filteredPokemons.slice(page * 10, (page + 1) * 10);
-  }, [pokemons, page, filter]);
+    return { filteredPokemons, totalPages: (filteredPokemons.length / 10 + 1) };
+  }, [pokemons, filter]);
 
-  const { isFetched, pokemonDetails, isLoading } = usePokemonDetails(filteredPokemons);
+  const { isFetched, pokemonDetails, isLoading } = usePokemonDetails(
+    filteredPokemons.slice(page * 10, (page + 1) * 10)
+  );
 
   return {
     isFetched,
     pokemonDetails,
     isLoading: isLoading && isLoadingPokemonList,
-    hasMore: pokemons.length > page * 10,
+    hasMore: filteredPokemons.length > (page + 1) * 10,
   };
 };
 
